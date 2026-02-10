@@ -1,0 +1,17 @@
+{% load static %}
+<script src="{% static 'datatablecdn/jquery.min.js' %}"></script>
+<script src="{% static 'datatablecdn/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'datatablecdn/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'datatablecdn/bootstrap.bundle.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            responsive: true,
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            pageLength: 100  
+        });
+    });
+</script>

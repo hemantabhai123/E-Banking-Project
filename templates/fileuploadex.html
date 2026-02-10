@@ -1,0 +1,218 @@
+{% extends 'backenddashboard/base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+  /* Dropzone styling */
+  .dropzone {
+    border: 2px dashed #dee2e6;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .dropzone.dragover {
+    background-color: #e0e7ff;
+  }
+  .dz-message {
+    font-size: 1rem;
+    color: #6c757d;
+    user-select: none;
+  }
+  .preview-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .preview-item {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    word-break: break-word;
+  }
+  .preview-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .preview-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    line-height: 17px;
+    padding: 0;
+  }
+  /* Card spacing */
+  .card + .card {
+    margin-top: 2rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">File Uploader</h2>
+<p class="text-muted mb-4">Phoenix uses a custom drag & drop uploader with live previews and remove functionality. Try dragging files or click to select.</p>
+
+<!-- Single File Upload -->
+<div class="card shadow-none border" data-component-card="data-component-card">
+  <div class="card-header p-4 border-bottom bg-body">
+    <h4 class="mb-0">Single File Upload</h4>
+  </div>
+  <div class="card-body p-4">
+    <div class="dropzone" id="single-file-dropzone" role="button" tabindex="0" aria-label="Single file upload dropzone">
+      <div class="dz-message">Drop your file here or click to select</div>
+      <input type="file" id="single-file-input" style="display:none" aria-hidden="true" />
+      <div class="preview-list" id="single-file-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Single Image Upload -->
+<div class="card shadow-none border" data-component-card="data-component-card">
+  <div class="card-header p-4 border-bottom bg-body">
+    <h4 class="mb-0">Single Image Upload</h4>
+  </div>
+  <div class="card-body p-4">
+    <div class="dropzone" id="single-image-dropzone" role="button" tabindex="0" aria-label="Single image upload dropzone">
+      <div class="dz-message">Drop your image here or click to select</div>
+      <input type="file" id="single-image-input" accept="image/*" style="display:none" aria-hidden="true" />
+      <div class="preview-list" id="single-image-preview"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Multiple File Upload -->
+<div class="card shadow-none border" data-component-card="data-component-card">
+  <div class="card-header p-4 border-bottom bg-body">
+    <h4 class="mb-0">Multiple File Upload</h4>
+  </div>
+  <div class="card-body p-4">
+    <div class="dropzone" id="multiple-file-dropzone" role="button" tabindex="0" aria-label="Multiple file upload dropzone">
+      <div class="dz-message">Drop your files here or click to select</div>
+      <input type="file" id="multiple-file-input" multiple style="display:none" aria-hidden="true" />
+      <div class="preview-list" id="multiple-file-preview"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  function setupDropzone(dropzoneId, inputId, previewId, options = {}) {
+    const dropzone = document.getElementById(dropzoneId);
+    const input = document.getElementById(inputId);
+    const previewList = document.getElementById(previewId);
+
+    const maxFiles = options.maxFiles || Infinity;
+    const acceptedTypes = options.acceptedTypes || null; // e.g. "image/*"
+
+    let files = [];
+
+    function updatePreview() {
+      previewList.innerHTML = '';
+      files.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.alt = file.name;
+          item.appendChild(img);
+        } else {
+          item.textContent = file.name;
+        }
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.setAttribute('aria-label', `Remove file ${file.name}`);
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => {
+          files.splice(index, 1);
+          updatePreview();
+        };
+        item.appendChild(removeBtn);
+
+        previewList.appendChild(item);
+      });
+    }
+
+    function handleFiles(selectedFiles) {
+      let selectedArray = Array.from(selectedFiles);
+
+      // Filter by accepted types
+      if (acceptedTypes) {
+        selectedArray = selectedArray.filter(f => {
+          if (acceptedTypes === 'image/*') return f.type.startsWith('image/');
+          return true;
+        });
+      }
+
+      // Respect maxFiles limit
+      if (maxFiles === 1) {
+        files = selectedArray.slice(0,1);
+      } else {
+        files = files.concat(selectedArray).slice(0, maxFiles);
+      }
+      updatePreview();
+    }
+
+    dropzone.addEventListener('click', () => {
+      input.click();
+    });
+
+    dropzone.addEventListener('keydown', e => {
+      // Allow keyboard accessibility
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
+    });
+
+    input.addEventListener('change', e => {
+      handleFiles(e.target.files);
+      input.value = ''; // reset input to allow same file again
+    });
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', e => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+  }
+
+  // Initialize all dropzones with appropriate options
+  setupDropzone('single-file-dropzone', 'single-file-input', 'single-file-preview', { maxFiles: 1 });
+  setupDropzone('single-image-dropzone', 'single-image-input', 'single-image-preview', { maxFiles: 1, acceptedTypes: 'image/*' });
+  setupDropzone('multiple-file-dropzone', 'multiple-file-input', 'multiple-file-preview', { maxFiles: 10 });
+</script>
+{% endblock %}

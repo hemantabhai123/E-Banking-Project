@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>FynCoo ERP - UdhyamiSuite</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- AOS Animation -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2258/2258575.png"/>
+  <style>
+    html { scroll-behavior: smooth; }
+    #scrollTopBtn { display: none; }
+    .faq-toggle-icon { transition: transform 0.2s; }
+    .faq-open .faq-toggle-icon { transform: rotate(180deg); }
+    .dark .dark-bg { background-color: #111827; }
+    .dark .dark-text { color: #f9fafb; }
+    /* Spinner for loading fake chat */
+    .spinner { border: 4px solid #eee; border-top: 4px solid #38bdf8; border-radius: 50%; width: 18px; height: 18px; animation: spin 1s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300">
+
+  <!-- Dark Mode Toggle -->
+  <button id="toggleTheme"
+    class="fixed z-50 right-5 top-5 p-2 rounded-full shadow bg-white text-gray-700 dark:bg-gray-800 dark:text-yellow-400 transition"
+    aria-label="Toggle Dark Mode">
+    <svg id="themeIcon" width="22" height="22" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 2a1 1 0 01.993.883L11 3v1a1 1 0 01-1.993.117L9 4V3a1 1 0 011-1zm5.657 3.343a1 1 0 011.415 1.415l-.707.707a1 1 0 01-1.415-1.415l.707-.707zM18 10a1 1 0 01.117 1.993L18 12h-1a1 1 0 01-.117-1.993L17 10h1zm-2.343 5.657a1 1 0 01.083 1.32l-.083.094-.707.707a1 1 0 01-1.497-1.32l.083-.094.707-.707a1 1 0 011.414 0zm-5.657 2.343a1 1 0 01.117 1.993L10 20a1 1 0 01-.117-1.993L10 18zm-5.657-2.343a1 1 0 01-1.32-.083l-.094-.083-.707-.707a1 1 0 011.32-1.497l.094.083.707.707a1 1 0 010 1.414zm-2.343-5.657a1 1 0 01-1.993-.117L2 10a1 1 0 011.993-.117L4 10zm2.343-5.657a1 1 0 01-1.32.083l-.094.083-.707.707a1 1 0 011.32 1.497l.094-.083.707-.707a1 1 0 010-1.414z"/>
+    </svg>
+  </button>
+
+  <!-- Responsive Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur shadow transition-colors">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+      <a href="#" class="flex items-center space-x-2">
+        <img src="https://cdn-icons-png.flaticon.com/512/2258/2258575.png" width="36" height="36" alt="logo">
+        <span class="font-bold text-lg text-blue-700 dark:text-yellow-300 tracking-wide">FynCoo उद्यमीSuite</span>
+      </a>
+      <div class="hidden md:flex items-center space-x-8 font-medium">
+        <a href="#features" class="hover:text-blue-500 dark:hover:text-yellow-400 transition">Features</a>
+        <a href="#pricing" class="hover:text-blue-500 dark:hover:text-yellow-400 transition">Pricing</a>
+        <a href="#testimonials" class="hover:text-blue-500 dark:hover:text-yellow-400 transition">Customers</a>
+        <a href="#blog" class="hover:text-blue-500 dark:hover:text-yellow-400 transition">Blog</a>
+        <a href="#faq" class="hover:text-blue-500 dark:hover:text-yellow-400 transition">FAQ</a>
+        <a href="#contact" class="ml-2 bg-blue-500 text-white px-5 py-2 rounded-full font-bold shadow hover:bg-blue-600 transition">Get Started</a>
+      </div>
+      <!-- Mobile Hamburger -->
+      <button id="nav-toggle" class="md:hidden focus:outline-none">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Drawer -->
+    <div id="nav-menu" class="md:hidden hidden flex-col bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+      <a href="#features" class="py-3 px-6 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 block">Features</a>
+      <a href="#pricing" class="py-3 px-6 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 block">Pricing</a>
+      <a href="#testimonials" class="py-3 px-6 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 block">Customers</a>
+      <a href="#blog" class="py-3 px-6 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 block">Blog</a>
+      <a href="#faq" class="py-3 px-6 hover:bg-blue-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 block">FAQ</a>
+      <a href="#contact" class="py-3 px-6 text-center bg-blue-500 text-white font-bold rounded-b block">Get Started</a>
+    </div>
+  </nav>
+
+  <div class="pt-24"></div>
+
+  <!-- Social Proof Bar -->
+  <div class="bg-white dark:bg-gray-900 py-2 shadow-md">
+    <div class="max-w-6xl mx-auto flex flex-wrap gap-8 justify-center items-center text-xs sm:text-base">
+      <span class="text-gray-500 dark:text-gray-300">Trusted by</span>
+      <img src="https://logo.clearbit.com/hp.com" class="h-6" alt="hp" />
+      <img src="https://logo.clearbit.com/microsoft.com" class="h-6" alt="microsoft" />
+      <img src="https://logo.clearbit.com/soho.com.np" class="h-6" alt="soho" />
+      <img src="https://logo.clearbit.com/intel.com" class="h-6" alt="intel" />
+      <img src="https://logo.clearbit.com/npay.com.np" class="h-6" alt="npay" />
+      <img src="https://logo.clearbit.com/standardchartered.com" class="h-6" alt="scb" />
+      <img src="https://logo.clearbit.com/unilever.com" class="h-6" alt="unilever" />
+    </div>
+  </div>
+
+  <!-- Hero Section with Lottie Animation -->
+  <section class="text-center py-20 bg-gradient-to-r from-blue-500 to-green-400 text-white relative" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-10">
+      <div class="w-full md:w-2/3">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg leading-tight">
+          Empower Nepali Businesses with <span class="text-yellow-200">UdhyamiSuite ERP</span>
+        </h1>
+        <p class="text-lg md:text-2xl mb-8 drop-shadow">All-in-one ERP for ambitious SMEs. Automate, collaborate, grow faster—no hassle, Nepali support.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <a href="#contact" class="bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-50 transition">Get Started Free</a>
+          <a href="#demo" class="border border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-green-600 transition">Book a Demo</a>
+        </div>
+        <!-- Social rating -->
+        <div class="flex items-center justify-center gap-1 mt-4">
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><polygon points="10,1.5 12.95,7.4 19.36,8.19 14.18,12.97 15.55,19.36 10,16.05 4.45,19.36 5.82,12.97 0.64,8.19 7.05,7.4 " /></svg>
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><polygon points="10,1.5 12.95,7.4 19.36,8.19 14.18,12.97 15.55,19.36 10,16.05 4.45,19.36 5.82,12.97 0.64,8.19 7.05,7.4 " /></svg>
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><polygon points="10,1.5 12.95,7.4 19.36,8.19 14.18,12.97 15.55,19.36 10,16.05 4.45,19.36 5.82,12.97 0.64,8.19 7.05,7.4 " /></svg>
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><polygon points="10,1.5 12.95,7.4 19.36,8.19 14.18,12.97 15.55,19.36 10,16.05 4.45,19.36 5.82,12.97 0.64,8.19 7.05,7.4 " /></svg>
+          <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><polygon points="10,1.5 12.95,7.4 19.36,8.19 14.18,12.97 15.55,19.36 10,16.05 4.45,19.36 5.82,12.97 0.64,8.19 7.05,7.4 " /></svg>
+          <span class="ml-2 text-white/80 text-sm">(4.9/5 on Google, 500+ Nepali users)</span>
+        </div>
+      </div>
+      <div class="w-full md:w-1/3 flex items-center justify-center">
+        <!-- Lottie Animation CDN: https://lottiefiles.com/animations/office-busy-4NfKn65NEl -->
+        <div id="lottieHero" style="width:280px;height:280px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-20 bg-white dark:bg-gray-900 scroll-mt-20">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-10 dark:text-gray-100">Why UdhyamiSuite?</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Inventory Management -->
+        <div class="bg-gray-50 dark:bg-gray-800 p-7 rounded-2xl shadow hover:shadow-lg transition text-center relative" data-aos="fade-up">
+          <span class="absolute -top-4 right-4 bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-bold animate-pulse">Popular</span>
+          <div class="flex justify-center mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/2664/2664060.png" alt="inventory" class="w-12 h-12" />
+          </div>
+          <h3 class="font-bold text-xl mb-2 dark:text-gray-50">Inventory</h3>
+          <p class="text-gray-600 dark:text-gray-200 mb-2">Real-time stock, alerts, multi-location & barcode.</p>
+          <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+            <li>Low-stock SMS/email alert</li>
+            <li>Unlimited warehouses</li>
+            <li>Fast bulk imports</li>
+          </ul>
+        </div>
+        <!-- Accounting -->
+        <div class="bg-gray-50 dark:bg-gray-800 p-7 rounded-2xl shadow hover:shadow-lg transition text-center" data-aos="fade-up" data-aos-delay="80">
+          <span class="absolute -top-4 left-4 bg-green-200 text-green-800 px-3 py-1 rounded-full text-xs font-bold">Smart</span>
+          <div class="flex justify-center mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/138/138292.png" alt="accounting" class="w-12 h-12" />
+          </div>
+          <h3 class="font-bold text-xl mb-2 dark:text-gray-50">Smart Accounting</h3>
+          <p class="text-gray-600 dark:text-gray-200 mb-2">Auto-bookkeeping, invoicing, tax, VAT & reporting.</p>
+          <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+            <li>e-Invoice + PDF export</li>
+            <li>Tax/VAT rules for Nepal</li>
+            <li>Excel/CSV import</li>
+          </ul>
+        </div>
+        <!-- HR -->
+        <div class="bg-gray-50 dark:bg-gray-800 p-7 rounded-2xl shadow hover:shadow-lg transition text-center relative" data-aos="fade-up" data-aos-delay="160">
+          <span class="absolute -top-4 right-4 bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">New</span>
+          <div class="flex justify-center mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png" alt="hr" class="w-12 h-12" />
+          </div>
+          <h3 class="font-bold text-xl mb-2 dark:text-gray-50">HR & Payroll</h3>
+          <p class="text-gray-600 dark:text-gray-200 mb-2">Attendance, payroll, leave, bonus, overtime.</p>
+          <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+            <li>Bio-metric & app check-in</li>
+            <li>Auto salary slip</li>
+            <li>Statutory deductions</li>
+          </ul>
+        </div>
+        <!-- CRM -->
+        <div class="bg-gray-50 dark:bg-gray-800 p-7 rounded-2xl shadow hover:shadow-lg transition text-center" data-aos="fade-up" data-aos-delay="240">
+          <span class="absolute -top-4 left-4 bg-pink-200 text-pink-800 px-3 py-1 rounded-full text-xs font-bold">Beta</span>
+          <div class="flex justify-center mb-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/3281/3281303.png" alt="crm" class="w-12 h-12" />
+          </div>
+          <h3 class="font-bold text-xl mb-2 dark:text-gray-50">Customer CRM</h3>
+          <p class="text-gray-600 dark:text-gray-200 mb-2">Track leads, customers, follow-ups & history.</p>
+          <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+            <li>WhatsApp & email sync</li>
+            <li>Task reminders</li>
+            <li>Custom fields</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-20 bg-gray-100 dark:bg-gray-800">
+    <div class="max-w-5xl mx-auto text-center" data-aos="fade-in">
+      <h2 class="text-2xl font-bold mb-8 dark:text-gray-50">How It Works</h2>
+      <div class="flex flex-col md:flex-row gap-8 justify-center">
+        <div class="flex-1">
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow mb-3 flex flex-col items-center">
+            <div class="w-14 h-14 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mb-2 text-2xl font-bold text-blue-500">1</div>
+            <span class="mt-2 font-bold text-lg dark:text-gray-50">Sign Up</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-200">No credit card needed. 2-min registration.</p>
+        </div>
+        <div class="flex-1">
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow mb-3 flex flex-col items-center">
+            <div class="w-14 h-14 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mb-2 text-2xl font-bold text-green-500">2</div>
+            <span class="mt-2 font-bold text-lg dark:text-gray-50">Setup</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-200">Guided onboarding & instant data import.</p>
+        </div>
+        <div class="flex-1">
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-xl shadow mb-3 flex flex-col items-center">
+            <div class="w-14 h-14 bg-yellow-100 dark:bg-yellow-700 rounded-full flex items-center justify-center mb-2 text-2xl font-bold text-yellow-500">3</div>
+            <span class="mt-2 font-bold text-lg dark:text-gray-50">Grow</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-200">Automate tasks & scale your business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section id="pricing" class="py-20 bg-gradient-to-r from-green-400 to-blue-500 text-white text-center scroll-mt-20" data-aos="fade-in">
+    <h2 class="text-2xl font-bold mb-6">Simple, Transparent Pricing</h2>
+    <p class="mb-10">Flexible plans for every Nepali business.</p>
+    <div class="flex flex-col md:flex-row gap-8 max-w-5xl mx-auto justify-center">
+      <!-- Starter -->
+      <div class="bg-white text-gray-700 p-8 rounded-2xl shadow-xl flex-1 flex flex-col justify-between">
+        <div>
+          <h3 class="text-xl font-bold mb-2">Starter</h3>
+          <div class="text-3xl font-extrabold mb-4">NPR 1,999/mo</div>
+          <ul class="text-sm mb-5 text-left space-y-2">
+            <li>✔️ Up to 3 Users</li>
+            <li>✔️ Inventory & Billing</li>
+            <li>✔️ e-Invoice</li>
+            <li>✔️ Free Setup</li>
+          </ul>
+        </div>
+        <a href="#contact" class="block mt-2 bg-blue-500 text-white py-2 rounded-full font-bold hover:bg-blue-600 transition">Get Started</a>
+      </div>
+      <!-- Growth -->
+      <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-2xl flex-1 border-4 border-yellow-400 scale-105">
+        <div>
+          <h3 class="text-xl font-bold mb-2">Growth</h3>
+          <div class="text-3xl font-extrabold mb-4">NPR 4,999/mo</div>
+          <ul class="text-sm mb-5 text-left space-y-2">
+            <li>✔️ All Starter Features</li>
+            <li>✔️ Unlimited Users</li>
+            <li>✔️ Payroll & HR</li>
+            <li>✔️ Customer CRM</li>
+            <li>✔️ Premium Support</li>
+          </ul>
+        </div>
+        <a href="#contact" class="block mt-2 bg-yellow-400 text-gray-900 py-2 rounded-full font-bold hover:bg-yellow-300 transition">Start Free Trial</a>
+      </div>
+      <!-- Enterprise -->
+      <div class="bg-white text-gray-700 p-8 rounded-2xl shadow-xl flex-1 flex flex-col justify-between">
+        <div>
+          <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+          <div class="text-3xl font-extrabold mb-4">Custom</div>
+          <ul class="text-sm mb-5 text-left space-y-2">
+            <li>All Features</li>
+            <li>Dedicated Success Manager</li>
+            <li>Custom Integrations</li>
+            <li>Onsite Training</li>
+          </ul>
+        </div>
+        <a href="#contact" class="block mt-2 bg-blue-500 text-white py-2 rounded-full font-bold hover:bg-blue-600 transition">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials/Reviews -->
+  <section id="testimonials" class="py-20 bg-white dark:bg-gray-900 scroll-mt-20">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-10 dark:text-gray-50">What Customers Say</h2>
+      <div class="grid md:grid-cols-3 gap-8" data-aos="fade-up">
+        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow text-center">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="ramesh" class="w-16 h-16 rounded-full mx-auto mb-2 border-4 border-blue-300">
+          <blockquote class="italic text-lg text-gray-700 dark:text-gray-100 mb-2">"UdhyamiSuite has made our accounting so easy and stress-free."</blockquote>
+          <div class="font-semibold text-blue-700 dark:text-yellow-400 mb-1">Ramesh Shrestha</div>
+          <span class="text-xs text-gray-400">ABC Distributors</span>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow text-center">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="sita" class="w-16 h-16 rounded-full mx-auto mb-2 border-4 border-pink-300">
+          <blockquote class="italic text-lg text-gray-700 dark:text-gray-100 mb-2">"Payroll and leave are now on autopilot. Best Nepali support."</blockquote>
+          <div class="font-semibold text-pink-700 dark:text-pink-300 mb-1">Sita Maharjan</div>
+          <span class="text-xs text-gray-400">TechNest</span>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow text-center">
+          <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="bikash" class="w-16 h-16 rounded-full mx-auto mb-2 border-4 border-green-300">
+          <blockquote class="italic text-lg text-gray-700 dark:text-gray-100 mb-2">"The CRM module is a game changer for our sales."</blockquote>
+          <div class="font-semibold text-green-700 dark:text-green-400 mb-1">Bikash Rana</div>
+          <span class="text-xs text-gray-400">BizXpress</span>
+        </div>
+      </div>
+      <!-- Carousel teaser dots for future -->
+      <div class="flex justify-center gap-2 mt-6">
+        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+        <span class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+        <span class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Signup -->
+  <section class="py-16 bg-blue-100 dark:bg-blue-900">
+    <div class="max-w-3xl mx-auto text-center" data-aos="fade-in">
+      <h2 class="text-2xl font-bold mb-4 dark:text-yellow-200">Get Updates & Tips</h2>
+      <p class="mb-6 text-gray-700 dark:text-blue-50">Join 1,000+ Nepali entrepreneurs for monthly SaaS news and business tips.</p>
+      <form class="flex flex-col sm:flex-row gap-3 justify-center">
+        <input type="email" class="flex-1 px-4 py-3 rounded-lg shadow border focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:text-gray-100" placeholder="Your email" required>
+        <button type="submit" class="px-7 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 shadow transition">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Blog Teasers -->
+  <section id="blog" class="py-20 bg-white dark:bg-gray-900 scroll-mt-20">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-10 dark:text-gray-50">From Our Blog</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <a href="#" class="block bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up">
+          <div class="h-40 bg-blue-200 rounded-lg mb-4"></div>
+          <h3 class="text-lg font-bold mb-2 dark:text-blue-100">How to Choose ERP for Nepali SMEs</h3>
+          <p class="text-gray-600 dark:text-gray-200 text-sm">Understand what matters when selecting business software. Real checklists for Nepal.</p>
+          <div class="mt-3 text-blue-600 dark:text-yellow-400 text-xs font-bold">Read More &rarr;</div>
+        </a>
+        <a href="#" class="block bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up" data-aos-delay="120">
+          <div class="h-40 bg-green-200 rounded-lg mb-4"></div>
+          <h3 class="text-lg font-bold mb-2 dark:text-green-100">GST, PAN & VAT Compliance 2025</h3>
+          <p class="text-gray-600 dark:text-gray-200 text-sm">Your ERP, your taxes—handled the easy way, with Nepali rules built in.</p>
+          <div class="mt-3 text-blue-600 dark:text-yellow-400 text-xs font-bold">Read More &rarr;</div>
+        </a>
+        <a href="#" class="block bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition" data-aos="fade-up" data-aos-delay="200">
+          <div class="h-40 bg-yellow-200 rounded-lg mb-4"></div>
+          <h3 class="text-lg font-bold mb-2 dark:text-yellow-100">5 Hacks for Paperless Accounting</h3>
+          <p class="text-gray-600 dark:text-gray-200 text-sm">How to go digital, automate records, and never worry at audit time.</p>
+          <div class="mt-3 text-blue-600 dark:text-yellow-400 text-xs font-bold">Read More &rarr;</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section id="faq" class="py-20 bg-gray-100 dark:bg-gray-800 scroll-mt-20">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6 dark:text-gray-100">Frequently Asked Questions</h2>
+      <ul class="mb-8" id="faq-list">
+        <li class="mb-4 border-b dark:border-gray-600">
+          <button type="button" class="w-full flex justify-between items-center py-3 font-semibold text-left faq-question dark:text-yellow-200">
+            <span>How does onboarding work?</span>
+            <svg class="w-5 h-5 faq-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-answer text-gray-600 dark:text-gray-200 pl-2 hidden">We provide step-by-step guidance, priority Nepali support, and fast migration tools.</div>
+        </li>
+        <li class="mb-4 border-b dark:border-gray-600">
+          <button type="button" class="w-full flex justify-between items-center py-3 font-semibold text-left faq-question dark:text-yellow-200">
+            <span>Is my data secure?</span>
+            <svg class="w-5 h-5 faq-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-answer text-gray-600 dark:text-gray-200 pl-2 hidden">Yes. We use enterprise-grade encryption, regular backups, and 99.99% uptime.</div>
+        </li>
+        <li class="mb-4 border-b dark:border-gray-600">
+          <button type="button" class="w-full flex justify-between items-center py-3 font-semibold text-left faq-question dark:text-yellow-200">
+            <span>Can I cancel anytime?</span>
+            <svg class="w-5 h-5 faq-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-answer text-gray-600 dark:text-gray-200 pl-2 hidden">Absolutely! No lock-in. Export your data with one click.</div>
+        </li>
+        <li class="mb-4 border-b dark:border-gray-600">
+          <button type="button" class="w-full flex justify-between items-center py-3 font-semibold text-left faq-question dark:text-yellow-200">
+            <span>How can I get support?</span>
+            <svg class="w-5 h-5 faq-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-answer text-gray-600 dark:text-gray-200 pl-2 hidden">In-app chat, WhatsApp, phone, or email—Nepali experts 7 days a week.</div>
+        </li>
+      </ul>
+      <div class="text-center" id="contact">
+        <p class="dark:text-gray-100">Questions? <a href="mailto:sales@fyncoo.com" class="text-blue-600 underline dark:text-yellow-300">Contact our team</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section class="py-20 bg-white dark:bg-gray-900 scroll-mt-20" id="contact">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-8 dark:text-gray-50">Contact Us</h2>
+      <form class="bg-gray-50 dark:bg-gray-800 p-8 rounded-2xl shadow-lg grid grid-cols-1 gap-6">
+        <input type="text" class="rounded-lg p-3 border dark:bg-gray-900 dark:text-gray-100" placeholder="Full Name*" required>
+        <input type="email" class="rounded-lg p-3 border dark:bg-gray-900 dark:text-gray-100" placeholder="Email*" required>
+        <input type="tel" class="rounded-lg p-3 border dark:bg-gray-900 dark:text-gray-100" placeholder="Phone (optional)">
+        <textarea class="rounded-lg p-3 border dark:bg-gray-900 dark:text-gray-100" placeholder="Your message..." rows="4"></textarea>
+        <button type="submit" class="bg-blue-500 text-white py-3 rounded-lg font-bold hover:bg-blue-600 transition">Send Message</button>
+      </form>
+      <div class="mt-6 text-center text-gray-400 text-sm dark:text-gray-600">We'll get back within 1 business day.</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 bg-gray-900 dark:bg-gray-950 text-gray-400 text-center text-sm">
+    &copy; 2025 FynCoo Technology. All rights reserved. &mdash; <a href="https://fyncoo.com" class="underline">fyncoo.com</a>
+    <div class="flex justify-center gap-6 mt-2">
+      <a href="#" class="hover:text-blue-400"><svg class="inline" width="20" height="20" fill="currentColor"><path d="M6.9 2a5 5 0 00-5 5v6a5 5 0 005 5h2v3.8c0 .8 1 1.2 1.6.7l3.7-4.5h2.8a5 5 0 005-5v-6a5 5 0 00-5-5h-9z"/></svg></a>
+      <a href="#" class="hover:text-blue-400"><svg class="inline" width="20" height="20" fill="currentColor"><circle cx="10" cy="10" r="9"/><path d="M13.1 9.5A3.1 3.1 0 017 9.5 3.1 3.1 0 0110 6.4a3.1 3.1 0 013.1 3.1z"/></svg></a>
+      <a href="#" class="hover:text-blue-400"><svg class="inline" width="20" height="20" fill="currentColor"><rect width="18" height="18" x="1" y="1" rx="4"/><circle cx="10" cy="10" r="4"/></svg></a>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollTopBtn" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition">
+    <svg width="24" height="24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Live Chat Widget (fake UI) -->
+  <div id="liveChat" class="fixed bottom-6 left-6 z-50 bg-white dark:bg-gray-900 shadow-xl rounded-2xl w-80 hidden">
+    <div class="flex items-center justify-between px-4 py-2 border-b dark:border-gray-700">
+      <span class="font-bold text-blue-600 dark:text-yellow-300">Live Chat</span>
+      <button id="closeChat" class="text-gray-500 hover:text-red-500 text-2xl leading-none">&times;</button>
+    </div>
+    <div class="p-4 text-gray-600 dark:text-gray-200 text-sm h-32 flex items-center justify-center">
+      <div class="spinner mr-2"></div>
+      <span>Loading chat...</span>
+    </div>
+  </div>
+  <button id="openChat" class="fixed bottom-6 left-6 z-40 p-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition">
+    <svg width="24" height="24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M8 10h8M8 14h5"/></svg>
+  </button>
+
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://unpkg.com/lottie-web@5.7.13/build/player/lottie.min.js"></script>
+  <script>
+    // AOS animations
+    AOS.init();
+
+    // Mobile nav menu
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('nav-toggle');
+      const menu = document.getElementById('nav-menu');
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    });
+
+    // Scroll to Top button
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.onscroll = function() {
+      if (window.scrollY > 200) {
+        scrollTopBtn.style.display = 'block';
+      } else {
+        scrollTopBtn.style.display = 'none';
+      }
+    };
+    scrollTopBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        answer.classList.toggle('hidden');
+        this.parentNode.classList.toggle('faq-open');
+      });
+    });
+
+    // Dark/Light Mode Toggle
+    const themeBtn = document.getElementById('toggleTheme');
+    const htmlEl = document.documentElement;
+    themeBtn.onclick = () => {
+      htmlEl.classList.toggle('dark');
+      document.getElementById('themeIcon').classList.toggle('text-yellow-400');
+    };
+
+    // Lottie Animation in Hero
+    if (window.lottie) {
+      lottie.loadAnimation({
+        container: document.getElementById('lottieHero'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'https://assets5.lottiefiles.com/packages/lf20_L72I1ZSGNH.json'
+      });
+    }
+
+    // Live Chat Widget (fake)
+    document.getElementById('openChat').onclick = () => {
+      document.getElementById('liveChat').classList.remove('hidden');
+      document.getElementById('openChat').classList.add('hidden');
+      setTimeout(() => {
+        document.querySelector('#liveChat .spinner').style.display = 'none';
+        document.querySelector('#liveChat span').textContent = "👋 Hi! How can we help you today?";
+      }, 1300);
+    };
+    document.getElementById('closeChat').onclick = () => {
+      document.getElementById('liveChat').classList.add('hidden');
+      document.getElementById('openChat').classList.remove('hidden');
+      document.querySelector('#liveChat .spinner').style.display = 'inline-block';
+      document.querySelector('#liveChat span').textContent = "Loading chat...";
+    };
+  </script>
+</body>
+</html>
