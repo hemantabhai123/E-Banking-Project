@@ -1,362 +1,256 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Member Information Form</title>
-
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- SELECT2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
-        rel="stylesheet">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Tahoma, Arial, sans-serif;
-            background: #cfe3ff;
-        }
-
-        .window {
-            width: 1200px;
-            margin: 10px auto;
-            background: linear-gradient(#dbeaff, #c4dcff);
-            border: 2px solid #7aa2d6;
-        }
-
-        .titlebar {
-            padding: 6px 10px;
-            font-weight: bold;
-            background: linear-gradient(#eaf2ff, #c8dcff);
-            border-bottom: 1px solid #7aa2d6;
-        }
-
-        .toolbar {
-            padding: 8px;
-            border-bottom: 1px solid #9bb7dd;
-        }
-
-        .toolbar button {
-            padding: 6px 18px;
-            margin-right: 6px;
-            background: linear-gradient(#fff, #d6e6ff);
-            border: 1px solid #7aa2d6;
-            border-radius: 3px;
-        }
-
-        .content {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .left-panel {
-            width: 260px;
-            background: #eaf2ff;
-            border: 1px solid #7aa2d6;
-        }
-
-        .left-panel table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        .left-panel th,
-        .left-panel td {
-            border: 1px solid #9bb7dd;
-            padding: 4px;
-        }
-
-        .left-panel th {
-            background: #d6e6ff;
-        }
-
-        .right-panel {
-            flex: 1;
-            background: #eaf2ff;
-            border: 1px solid #7aa2d6;
-            padding: 10px;
-        }
-
-        /* ROW GRID */
-        .row-grid {
-            display: grid;
-            grid-template-columns: 120px 180px 120px 180px 120px 180px;
-            gap: 6px;
-            margin-bottom: 6px;
-        }
-
-        label {
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        /* TABS */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #7aa2d6;
-            margin-top: 10px;
-        }
-
-        .tab {
-            padding: 6px 14px;
-            background: #d6e6ff;
-            border: 1px solid #7aa2d6;
-            border-bottom: none;
-            margin-right: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .tab.active {
-            background: #fff;
-        }
-
-        .tab-content {
-            display: none;
-            background: #fff;
-            border: 1px solid #7aa2d6;
-            padding: 10px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* BASIC INFO */
-        .basic-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 260px;
-            gap: 10px;
-        }
-
-        .col-grid {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 6px;
-        }
-
-        .photo-box {
-            width: 220px;
-            height: 180px;
-            border: 1px solid #7aa2d6;
-            background: #eef5ff;
-        }
-
-        .checklist label {
-            display: block;
-            margin-top: 4px;
-            font-weight: normal;
-        }
-
-        /* SIGNATURE */
-        .sign-wrap {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .preview {
-            width: 260px;
-            height: 260px;
-            border: 1px solid #7aa2d6;
-            background: #eef5ff;
-            margin: 6px 0;
-        }
-
-        /* SELECT2 SMALL FIX */
-        .select2-container--bootstrap-5 .select2-selection {
-            min-height: 30px;
-            padding: 2px 6px;
-            font-size: 13px;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="window">
-        <div class="titlebar">Member Information Form</div>
-
-        <div class="toolbar">
-            <button class="btn btn-sm">New</button>
-            <button class="btn btn-sm">Save</button>
-            <button class="btn btn-sm">Cancel</button>
-            <button class="btn btn-sm" disabled>Delete</button>
-            <button class="btn btn-sm" disabled>Print</button>
+{% extends 'backenddashboard/base.html' %}
+{% load static %}
+{% block style %}
+{% endblock %}
+{% block content %}
+<div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-6 pb-9 border-top">
+    <!-- HEADER -->
+    <div class="card-header fw-bold">
+        Member Registration Form
+    </div>
+    <!-- TOOLBAR -->
+    <div class="card-body border-bottom">
+        <div class="btn-group btn-group-sm">
+            <button class="btn btn-outline-primary">New</button>
+            <button class="btn btn-outline-success">Save</button>
+            <button class="btn btn-outline-secondary">Cancel</button>
+            <button class="btn btn-outline-danger" disabled>Delete</button>
+            <button class="btn btn-outline-dark" disabled>Print</button>
         </div>
-
-        <div class="content">
-
-            <!-- LEFT PANEL -->
-            <div class="left-panel">
-                <table>
-                    <tr>
-                        <th>Mem. No.</th>
-                        <th>Name</th>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Contains:</td>
-                    </tr>
+    </div>
+    <div class="row g-0">
+        <!-- LEFT PANEL -->
+        <div class="col-md-3 border-end">
+            <div class="p-2">
+                <table class="table table-sm table-bordered text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Mem. No.</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MB00001</td>
+                            <td>Ram Kumar</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-
-            <!-- RIGHT PANEL -->
-            <div class="right-panel">
-
-                <div class="row-grid">
-                    <label>Alias</label>
-                    <input class="form-control form-control-sm" value="MB00001">
-
-                    <label>Type</label>
-                    <select class="form-select form-select-sm select2">
-                        <option>ORDINARY</option>
-                    </select>
-
-                    <label>Join Date</label>
-                    <input class="form-control form-control-sm" value="2073-04-01">
-                </div>
-
-                <div class="row-grid">
-                    <label>Name</label>
-                    <select class="form-select form-select-sm select2">
-                        <option>Mr.</option>
-                    </select>
-                    <input class="form-control form-control-sm" value="Ram">
-                    <input class="form-control form-control-sm" value="Kumar">
-                    <input class="form-control form-control-sm" value="Karki">
-                </div>
-
-                <div class="row-grid">
-                    <label>नाम</label>
-                    <input class="form-control form-control-sm" value="श्रीमान">
-                    <input class="form-control form-control-sm" value="राम">
-                    <input class="form-control form-control-sm" value="कुमार">
-                    <input class="form-control form-control-sm" value="कार्की">
-                </div>
-
-                <!-- TABS -->
-                <div class="tabs">
-                    <div class="tab active" onclick="openTab(0)">Basic Info</div>
-                    <div class="tab" onclick="openTab(1)">Mandatory</div>
-                    <div class="tab" onclick="openTab(2)">Nominee</div>
-                    <div class="tab" onclick="openTab(3)">Signature</div>
-                </div>
-
-                <!-- BASIC INFO -->
-                <div class="tab-content active">
-                    <div class="basic-grid">
-
-                        <div class="col-grid">
-                            <label>Gender</label>
-                            <select class="form-select form-select-sm select2">
-                                <option>Male</option>
-                            </select>
-
-                            <label>Nationality</label>
-                            <select class="form-select form-select-sm select2">
-                                <option>Nepali</option>
-                            </select>
-
-                            <label>District</label>
-                            <input class="form-control form-control-sm">
-
-                            <label>Mobile No</label>
-                            <input class="form-control form-control-sm" value="0">
+        </div>
+        <!-- RIGHT PANEL -->
+        <div class="col-md-9">
+            <div class="p-3">
+                <form>
+                    <!-- TOP SECTION -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row mb-2 align-items-center">
+                                <label class="col-4 col-form-label text-end">Member ID</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control form-control-sm" value="MB00001" readonly>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-grid">
-                            <label>Date of Birth</label>
-                            <input class="form-control form-control-sm" value="2073-04-01">
-
-                            <label>Zone</label>
-                            <input class="form-control form-control-sm">
-
-                            <label>Ward No</label>
-                            <input class="form-control form-control-sm" value="0">
-
-                            <label>Email</label>
-                            <input class="form-control form-control-sm">
+                        <div class="col-md-6">
+                            <div class="row mb-2 align-items-center">
+                                <label class="col-4 col-form-label text-end">Join Date</label>
+                                <div class="col-8">
+                                    <input type="date" class="form-control form-control-sm">
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="row mb-2 align-items-center">
+                                <label class="col-4 col-form-label text-end">Member Type</label>
+                                <div class="col-8">
+                                    <select class="form-select form-select-sm select2">
+                                        <option>Ordinary</option>
+                                        <option>Shareholder</option>
+                                        <option>Staff</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div>
-                            <div class="photo-box"></div>
-                            <div class="checklist">
-                                <label><input type="checkbox" class="form-check-input" checked> Enable</label>
-                                <label><input type="checkbox" class="form-check-input"> SMS Banking</label>
-                                <label><input type="checkbox" class="form-check-input"> Mobile Banking</label>
-                                <label><input type="checkbox" class="form-check-input"> Mobile Reporting</label>
+                    <!-- TABS -->
+                    <ul class="nav nav-tabs mt-4">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basicInfo">
+                                Basic Info
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mandatoryInfo">
+                                Mandatory
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nomineeInfo">
+                                Nominee
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#signatureInfo">
+                                Signature
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content border border-top-0 p-3">
+                        <!-- BASIC INFO -->
+                        <div class="tab-pane fade show active" id="basicInfo">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Title</label>
+                                        <div class="col-8">
+                                            <select class="form-select form-select-sm select2">
+                                                <option>Mr.</option>
+                                                <option>Mrs.</option>
+                                                <option>Miss</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">First Name</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Last Name</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Gender</label>
+                                        <div class="col-8">
+                                            <select class="form-select form-select-sm">
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Date of Birth</label>
+                                        <div class="col-8">
+                                            <input type="date" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Mobile</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Email</label>
+                                        <div class="col-8">
+                                            <input type="email" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Address</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MANDATORY -->
+                        <div class="tab-pane fade" id="mandatoryInfo">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Citizenship No</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Issued District</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">PAN No</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
-                </div>
+                        <!-- NOMINEE -->
+                        <div class="tab-pane fade" id="nomineeInfo">
 
-                <!-- MANDATORY -->
-                <div class="tab-content">
-                    <label>Citizenship No</label>
-                    <input class="form-control form-control-sm mb-2">
-                    <label>Issued District</label>
-                    <input class="form-control form-control-sm mb-2">
-                    <label>Address</label>
-                    <input class="form-control form-control-sm">
-                </div>
-
-                <!-- NOMINEE -->
-                <div class="tab-content">
-                    <button class="btn btn-sm btn-outline-primary">Add Nominee</button>
-                </div>
-
-                <!-- SIGNATURE -->
-                <div class="tab-content">
-                    <div class="sign-wrap">
-                        <div>
-                            <b>Signature (600×600)</b>
-                            <div class="preview"></div>
-                            <button class="btn btn-sm btn-outline-primary">Upload</button>
-                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Nominee Name</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mb-2 align-items-center">
+                                        <label class="col-4 col-form-label text-end">Relation</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div>
-                            <b>Photo (600×600)</b>
-                            <div class="preview"></div>
-                            <button class="btn btn-sm btn-outline-primary">Upload</button>
-                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                        <!-- SIGNATURE -->
+                        <div class="tab-pane fade" id="signatureInfo">
+
+                            <div class="row text-center">
+
+                                <div class="col-md-6">
+                                    <p class="fw-bold">Photo</p>
+                                    <div class="ratio ratio-1x1 border mb-2"></div>
+                                    <input type="file" class="form-control form-control-sm">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <p class="fw-bold">Signature</p>
+                                    <div class="ratio ratio-1x1 border mb-2"></div>
+                                    <input type="file" class="form-control form-control-sm">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="text-center mt-3">
-                    <button class="btn btn-sm btn-primary">Add</button>
-                    <button class="btn btn-sm btn-success">Save</button>
-                    <button class="btn btn-sm btn-secondary">Cancel</button>
-                    <button class="btn btn-sm btn-danger" disabled>Delete</button>
-                </div>
-
+                    <!-- FOOTER BUTTONS -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success btn-sm">Save Member</button>
+                        <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script>
-        $('.select2').select2({
-            theme: 'bootstrap-5',
-            width: '100%'
-        });
-
-        function openTab(i) {
-            document.querySelectorAll('.tab').forEach((t, x) => t.classList.toggle('active', x === i));
-            document.querySelectorAll('.tab-content').forEach((c, x) => c.classList.toggle('active', x === i));
-        }
-    </script>
-
-</body>
-
-</html>
+</div>
+<script>
+    $('.select2').select2({
+        theme: 'bootstrap-5',
+        width: '100%'
+    });
+</script>
+{% endblock %}
