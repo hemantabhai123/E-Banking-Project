@@ -1,6 +1,71 @@
 {% extends 'backenddashboard/base.html' %}
 {% load static %}
 {% block style %}
+<style>
+  /* Dropzone styling */
+  .dropzone {
+    border: 2px dashed #dee2e6;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .dropzone.dragover {
+    background-color: #e0e7ff;
+  }
+  .dz-message {
+    font-size: 1rem;
+    color: #6c757d;
+    user-select: none;
+  }
+  .preview-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .preview-item {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    word-break: break-word;
+  }
+  .preview-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .preview-item .remove-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    line-height: 17px;
+    padding: 0;
+  }
+  /* Card spacing */
+  .card + .card {
+    margin-top: 2rem;
+  }
+</style>
 {% endblock %}
 {% block content %}
 <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-6 pb-9 border-top">
@@ -18,239 +83,808 @@
             <button class="btn btn-outline-dark" disabled>Print</button>
         </div>
     </div>
-    <div class="row g-0">
-        <!-- LEFT PANEL -->
-        <div class="col-md-3 border-end">
-            <div class="p-2">
-                <table class="table table-sm table-bordered text-center">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Mem. No.</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>MB00001</td>
-                            <td>Ram Kumar</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <!-- RIGHT PANEL -->
-        <div class="col-md-9">
-            <div class="p-3">
-                <form>
-                    <!-- TOP SECTION -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row mb-2 align-items-center">
-                                <label class="col-4 col-form-label text-end">Member ID</label>
-                                <div class="col-8">
-                                    <input type="text" class="form-control form-control-sm" value="MB00001" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row mb-2 align-items-center">
-                                <label class="col-4 col-form-label text-end">Join Date</label>
-                                <div class="col-8">
-                                    <input type="date" class="form-control form-control-sm">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row mb-2 align-items-center">
-                                <label class="col-4 col-form-label text-end">Member Type</label>
-                                <div class="col-8">
-                                    <select class="form-select form-select-sm select2">
-                                        <option>Ordinary</option>
-                                        <option>Shareholder</option>
-                                        <option>Staff</option>
-                                    </select>
-                                </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="col-md-12">
+        <div class="p-3">
+            <form>
+                <!-- TOP SECTION -->
+                <!-- MEMBER HEADER INFO -->
+                <div class="row">
+
+                    <!-- Row 1 -->
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Alias</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="MB00001">
                             </div>
                         </div>
                     </div>
 
-                    <!-- TABS -->
-                    <ul class="nav nav-tabs mt-4">
-                        <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basicInfo">
-                                Basic Info
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mandatoryInfo">
-                                Mandatory
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nomineeInfo">
-                                Nominee
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#signatureInfo">
-                                Signature
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content border border-top-0 p-3">
-                        <!-- BASIC INFO -->
-                        <div class="tab-pane fade show active" id="basicInfo">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Title</label>
-                                        <div class="col-8">
-                                            <select class="form-select form-select-sm select2">
-                                                <option>Mr.</option>
-                                                <option>Mrs.</option>
-                                                <option>Miss</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">First Name</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm" required>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Last Name</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm" required>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Gender</label>
-                                        <div class="col-8">
-                                            <select class="form-select form-select-sm">
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Date of Birth</label>
-                                        <div class="col-8">
-                                            <input type="date" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Mobile</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Email</label>
-                                        <div class="col-8">
-                                            <input type="email" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Address</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- MANDATORY -->
-                        <div class="tab-pane fade" id="mandatoryInfo">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Citizenship No</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Issued District</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">PAN No</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- NOMINEE -->
-                        <div class="tab-pane fade" id="nomineeInfo">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Nominee Name</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row mb-2 align-items-center">
-                                        <label class="col-4 col-form-label text-end">Relation</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control form-control-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SIGNATURE -->
-                        <div class="tab-pane fade" id="signatureInfo">
-
-                            <div class="row text-center">
-
-                                <div class="col-md-6">
-                                    <p class="fw-bold">Photo</p>
-                                    <div class="ratio ratio-1x1 border mb-2"></div>
-                                    <input type="file" class="form-control form-control-sm">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <p class="fw-bold">Signature</p>
-                                    <div class="ratio ratio-1x1 border mb-2"></div>
-                                    <input type="file" class="form-control form-control-sm">
-                                </div>
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Type</label>
+                            <div class="col-8">
+                                <select class="form-select form-select-sm select2">
+                                    <option>ORDINARY</option>
+                                    <option>SHAREHOLDER</option>
+                                    <option>STAFF</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <!-- FOOTER BUTTONS -->
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-success btn-sm">Save Member</button>
-                        <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Join Date</label>
+                            <div class="col-8">
+                                <input type="date" class="form-control form-control-sm">
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Trans. Date</label>
+                            <div class="col-8">
+                                <input type="date" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- ENGLISH NAME ROW -->
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Title</label>
+                            <div class="col-8">
+                                <select class="form-select form-select-sm select2">
+                                    <option>Mr.</option>
+                                    <option>Mrs.</option>
+                                    <option>Miss</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">First Name</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="Ram">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Middle Name</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="Kumar">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">Last Name</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="Karki">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- NEPALI NAME ROW -->
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">नाम</label>
+                            <div class="col-8">
+                                <select class="form-select form-select-sm">
+                                    <option>श्रीमान</option>
+                                    <option>श्रीमती</option>
+                                    <option>कुमारी</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">पहिलो नाम</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="राम">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">बीचको नाम</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="कुमार">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row mb-2 align-items-center">
+                            <label class="col-4 col-form-label text-start">थर</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control form-control-sm" value="कार्की">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+
+                <!-- TABS -->
+                <ul class="nav nav-tabs mt-4">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basicInfo">
+                            Basic Info
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#mandatoryInfo">
+                            Mandatory
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nomineeInfo">
+                            Nominee
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#signatureInfo">
+                            Signature
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content border border-top-0 p-3">
+                    <!-- BASIC INFO -->
+                    <div class="tab-pane fade show active" id="basicInfo">
+                        <div class="row">
+
+                            <!-- LEFT COLUMN -->
+                            <div class="col-md-6">
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Gender</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm select2">
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Citizenship No</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Issued District</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Nationality</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm select2">
+                                            <option>Nepali</option>
+                                            <option>Indian</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">District</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Street/Tole</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Religion</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm">
+                                            <option>Select</option>
+                                            <option>Hindu</option>
+                                            <option>Buddhist</option>
+                                            <option>Christian</option>
+                                            <option>Muslim</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Education</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm">
+                                            <option>Select</option>
+                                            <option>Primary</option>
+                                            <option>Secondary</option>
+                                            <option>Bachelor</option>
+                                            <option>Master</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Mobile No</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Tmp. Address</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- RIGHT COLUMN -->
+                            <div class="col-md-6">
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Date of Birth</label>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Issued Date</label>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Monthly Income</label>
+                                    <div class="col-8">
+                                        <input type="number" step="0.01" class="form-control form-control-sm"
+                                            value="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Zone</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm select2">
+                                            <option>Mechi</option>
+                                            <option>Koshi</option>
+                                            <option>Bagmati</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">VDC/Municipality</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Ward No</label>
+                                    <div class="col-8">
+                                        <input type="number" class="form-control form-control-sm" value="0">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Occupation</label>
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm">
+                                            <option>Select</option>
+                                            <option>Business</option>
+                                            <option>Service</option>
+                                            <option>Student</option>
+                                            <option>Farmer</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Contact No</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">E-mail</label>
+                                    <div class="col-8">
+                                        <input type="email" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <hr class="my-3">
+                        <h6 class="fw-bold">Genealogy Information</h6>
+
+                        <div class="row">
+
+                            <!-- First Priority -->
+                            <div class="col-md-12">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-md-2 col-form-label text-start">First Priority</label>
+
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm select2">
+                                            <option value="">Select Relation</option>
+                                            <option>Grandfather</option>
+                                            <option>Father</option>
+                                            <option>Mother</option>
+                                            <option>Spouse</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Name Surname">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control form-control-sm" placeholder="नाम थर">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Second Priority -->
+                            <div class="col-md-12">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-md-2 col-form-label text-start">Second Priority</label>
+
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm select2">
+                                            <option value="">Select Relation</option>
+                                            <option>Grandfather</option>
+                                            <option>Father</option>
+                                            <option>Mother</option>
+                                            <option>Spouse</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Name Surname">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control form-control-sm" placeholder="नाम थर">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Third Priority -->
+                            <div class="col-md-12">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-md-2 col-form-label text-start">Third Priority</label>
+
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm select2">
+                                            <option value="">Select Relation</option>
+                                            <option>Grandfather</option>
+                                            <option>Father</option>
+                                            <option>Mother</option>
+                                            <option>Spouse</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Name Surname">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control form-control-sm" placeholder="नाम थर">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- MANDATORY -->
+                    <div class="tab-pane fade" id="mandatoryInfo">
+
+                        <div class="row">
+                            <!-- Nominee Name -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Name</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Nominee Name">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Relation -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Relation</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Relation">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Date of Birth -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Date of Birth</label>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Contact</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Phone Number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Address</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Full Address">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Citizenship Number -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Citizenship No</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Citizenship Number">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Document Image -->
+                            <div class="col-md-6 mt-2">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-md-4 col-form-label text-start">Document Image</label>
+                                    <div class="col-md-8">
+                                        <input type="file" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-md-4 col-form-label text-start">Document Image</label>
+                                    <div class="col-md-8">
+                                        <input type="file" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- NOMINEE -->
+                    <div class="tab-pane fade" id="nomineeInfo">
+
+                        <div class="row">
+
+                            <!-- Nominee Name -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Name</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Nominee Name">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Relation -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Relation</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Relation">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Date of Birth -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Date of Birth</label>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Contact</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Phone Number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Address</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Full Address">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Citizenship Number -->
+                            <div class="col-md-6">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-4 col-form-label text-start">Citizenship No</label>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Citizenship Number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document Image -->
+                            <div class="col-md-12 mt-2">
+                                <div class="row mb-2 align-items-center">
+                                    <label class="col-2 col-form-label text-start">Document Image</label>
+                                    <div class="col-10">
+                                        <input type="file" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- SIGNATURE -->
+                    <!-- SIGNATURE -->
+                    <div class="tab-pane fade" id="signatureInfo">
+
+                        <div class="row text-center">
+
+                            <!-- PHOTO -->
+                            <div class="col-md-6">
+                                <p class="fw-bold">Photo</p>
+
+                                <div class="border mb-2 mx-auto d-flex align-items-center justify-content-center"
+                                    style="width:120px; height:120px;">
+                                    <img id="photoPreview" src="" class="img-fluid d-none"
+                                        style="object-fit: contain; max-width:100%; max-height:100%;">
+                                </div>
+
+                                <input type="file" class="form-control form-control-sm" accept="image/*"
+                                    onchange="previewImage(this, 'photoPreview')">
+                            </div>
+
+                            <!-- SIGNATURE -->
+                            <div class="col-md-6">
+                                <p class="fw-bold">Signature</p>
+
+                                <div class="border mb-2 mx-auto d-flex align-items-center justify-content-center"
+                                    style="width:120px; height:120px;">
+                                    <img id="signPreview" src="" class="img-fluid d-none"
+                                        style="object-fit: contain; max-width:100%; max-height:100%;">
+                                </div>
+
+                                <input type="file" class="form-control form-control-sm" accept="image/*"
+                                    onchange="previewImage(this, 'signPreview')">
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                <!-- FOOTER BUTTONS -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success btn-sm">Save Member</button>
+                    <button type="reset" class="btn btn-secondary btn-sm">Reset</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Select2 init
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+            width: '100%'
+        });
+
+        // Force Bootstrap Tabs (fix Django issues)
+        const triggerTabList = document.querySelectorAll('[data-bs-toggle="tab"]');
+
+        triggerTabList.forEach(function (triggerEl) {
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault();
+                const tab = new bootstrap.Tab(triggerEl);
+                tab.show();
+            });
+        });
+
+    });
+</script>
 <script>
     $('.select2').select2({
         theme: 'bootstrap-5',
         width: '100%'
     });
+</script>
+<script>
+    function previewImage(input, previewId) {
+        const file = input.files[0];
+        const preview = document.getElementById(previewId);
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove("d-none");
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+<script>
+  function setupDropzone(dropzoneId, inputId, previewId, options = {}) {
+    const dropzone = document.getElementById(dropzoneId);
+    const input = document.getElementById(inputId);
+    const previewList = document.getElementById(previewId);
+
+    const maxFiles = options.maxFiles || Infinity;
+    const acceptedTypes = options.acceptedTypes || null; // e.g. "image/*"
+
+    let files = [];
+
+    function updatePreview() {
+      previewList.innerHTML = '';
+      files.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.alt = file.name;
+          item.appendChild(img);
+        } else {
+          item.textContent = file.name;
+        }
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.setAttribute('aria-label', `Remove file ${file.name}`);
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => {
+          files.splice(index, 1);
+          updatePreview();
+        };
+        item.appendChild(removeBtn);
+
+        previewList.appendChild(item);
+      });
+    }
+
+    function handleFiles(selectedFiles) {
+      let selectedArray = Array.from(selectedFiles);
+
+      // Filter by accepted types
+      if (acceptedTypes) {
+        selectedArray = selectedArray.filter(f => {
+          if (acceptedTypes === 'image/*') return f.type.startsWith('image/');
+          return true;
+        });
+      }
+
+      // Respect maxFiles limit
+      if (maxFiles === 1) {
+        files = selectedArray.slice(0,1);
+      } else {
+        files = files.concat(selectedArray).slice(0, maxFiles);
+      }
+      updatePreview();
+    }
+
+    dropzone.addEventListener('click', () => {
+      input.click();
+    });
+
+    dropzone.addEventListener('keydown', e => {
+      // Allow keyboard accessibility
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
+    });
+
+    input.addEventListener('change', e => {
+      handleFiles(e.target.files);
+      input.value = ''; // reset input to allow same file again
+    });
+
+    dropzone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', e => {
+      dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+  }
+
+  // Initialize all dropzones with appropriate options
+  setupDropzone('single-file-dropzone', 'single-file-input', 'single-file-preview', { maxFiles: 1 });
+  setupDropzone('single-image-dropzone', 'single-image-input', 'single-image-preview', { maxFiles: 1, acceptedTypes: 'image/*' });
+  setupDropzone('multiple-file-dropzone', 'multiple-file-input', 'multiple-file-preview', { maxFiles: 10 });
 </script>
 {% endblock %}
