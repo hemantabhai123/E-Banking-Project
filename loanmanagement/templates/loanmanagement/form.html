@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Loan Disbursement</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #e9f0fb;
+        }
+
+        .main-box {
+            background: #dfeaf7;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #b7cde8;
+        }
+
+        .nav-tabs .nav-link {
+            font-size: 14px;
+            padding: 6px 14px;
+        }
+
+        .tab-box {
+            background: #f8fbff;
+            padding: 15px;
+            border: 1px solid #c8d8ef;
+            border-top: 0;
+        }
+
+        .form-control,
+        .form-select {
+            height: 32px;
+            font-size: 13px;
+        }
+
+        label {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .photo-box {
+            height: 180px;
+            border: 1px solid #b7cde8;
+            background: white;
+        }
+
+        .table th {
+            font-size: 13px;
+        }
+
+        .table td {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid mt-3">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- ===================== TOP SECTION ===================== -->
+            <div class="card p-3 mb-3">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label>Loan Scheme</label>
+                        <select name="loan_scheme" class="form-select">
+                            <option value="">Select Scheme</option>
+                            <option value="110.01">Business Loan (110.01)</option>
+                            <option value="120.01">Home Loan (120.01)</option>
+                            <option value="130.01">Vehicle Loan (130.01)</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>A/C No</label>
+                        <input type="text" name="account_no" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Collector</label>
+                        <select name="collector" class="form-select">
+                            <option value="">Select Collector</option>
+                            <option>Office</option>
+                            <option>Field</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Issue Amount</label>
+                        <input type="number" step="0.01" name="issue_amount" class="form-control">
+                    </div>
+
+                    <div class="col-md-1">
+                        <label>Int. Rate</label>
+                        <input type="number" step="0.01" name="interest_rate" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Loan Limit</label>
+                        <input type="number" step="0.01" name="loan_limit" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-md-2">
+                        <label>Total Loan Issue</label>
+                        <input type="number" step="0.01" name="total_loan_issue" class="form-control">
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <input type="checkbox" name="prebal_ac"> Prebal A/C
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <input type="checkbox" name="od_facility"> OD Facility
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                        <input type="checkbox" name="allow_penalty" checked> Allow Penalty
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Installment</label>
+                        <select name="installment_type" class="form-select">
+                            <option value="MONTHLY">MONTHLY</option>
+                            <option value="QUARTERLY">QUARTERLY</option>
+                            <option value="YEARLY">YEARLY</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-1">
+                        <label>No.</label>
+                        <input type="number" name="installment_no" class="form-control">
+                    </div>
+
+                    <div class="col-md-1">
+                        <label>Period</label>
+                        <input type="number" name="period" class="form-control">
+                    </div>
+
+                    <div class="col-md-1">
+                        <label>Type</label>
+                        <select name="period_type" class="form-select">
+                            <option value="Months">Months</option>
+                            <option value="Years">Years</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Date Start</label>
+                        <input type="date" name="date_start" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Date End</label>
+                        <input type="date" name="date_end" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Last Date of Int. PMT</label>
+                        <input type="date" name="last_interest_payment" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 mt-2">
+                        <label>Loan Purpose</label>
+                        <input type="text" name="loan_purpose" class="form-control">
+                    </div>
+
+                    <div class="col-md-2 mt-2">
+                        <label>Group</label>
+                        <select name="group" class="form-select">
+                            <option>ORDINARY</option>
+                            <option>VIP</option>
+                            <option>STAFF</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mt-2">
+                        <label>Member Name</label>
+                        <select name="member_name" class="form-select">
+                            <option>Select Member</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================== TABS ===================== -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basic">Basic
+                        Info</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                        data-bs-target="#mandatory">Mandatory</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                        data-bs-target="#nominee">Nominee</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                        data-bs-target="#signature">Signature</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#schedule">Loan
+                        Schedule</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#guarantee">Guarantee
+                        Info</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                        data-bs-target="#collateral">Collateral</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#granting">Loan
+                        Granting</button></li>
+            </ul>
+
+            <div class="tab-content border p-3">
+
+                <!-- ================= BASIC INFO ================= -->
+                <div class="tab-pane fade show active" id="basic">
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Title</label>
+                            <select name="title" class="form-select">
+                                <option>Mr.</option>
+                                <option>Mrs.</option>
+                                <option>Miss</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Gender</label>
+                            <select name="gender" class="form-select">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Monthly Income</label>
+                            <input type="number" name="monthly_income" class="form-control">
+                        </div>
+
+                        <div class="col-md-3 mt-2">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="form-control">
+                        </div>
+
+                        <div class="col-md-3 mt-2">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
+
+                        <div class="col-md-2 mt-2">
+                            <label>Ward No</label>
+                            <input type="number" name="ward_no" class="form-control">
+                        </div>
+
+                        <div class="col-md-4 mt-2">
+                            <label>Street / Tole</label>
+                            <input type="text" name="street" class="form-control">
+                        </div>
+
+                        <div class="col-md-2 mt-2">
+                            <input type="checkbox" name="status" checked> Enable
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ================= MANDATORY ================= -->
+                <div class="tab-pane fade" id="mandatory">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Citizenship No</label>
+                            <input type="text" name="citizenship_no" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Issue Date</label>
+                            <input type="date" name="issue_date" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Issue District</label>
+                            <input type="text" name="issue_district" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= NOMINEE ================= -->
+                <div class="tab-pane fade" id="nominee">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nominee Name</label>
+                            <input type="text" name="nominee_name" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Relation</label>
+                            <input type="text" name="nominee_relation" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Nominee Contact</label>
+                            <input type="text" name="nominee_contact" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= GUARANTEE ================= -->
+                <div class="tab-pane fade" id="guarantee">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Guarantor Name</label>
+                            <input type="text" name="guarantor_name" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Guarantor Contact</label>
+                            <input type="text" name="guarantor_contact" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= COLLATERAL ================= -->
+                <div class="tab-pane fade" id="collateral">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Collateral Type</label>
+                            <input type="text" name="collateral_type" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Collateral Value</label>
+                            <input type="number" name="collateral_value" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= LOAN GRANTING ================= -->
+                <div class="tab-pane fade" id="granting">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Approved By</label>
+                            <input type="text" name="approved_by" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Approval Date</label>
+                            <input type="date" name="approval_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-end mt-3">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="reset" class="btn btn-secondary">Cancel</button>
+                <button type="button" class="btn btn-primary">Print</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
