@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Fixed Deposit Form</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #eaf2fb;
+        }
+
+        .form-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-btn {
+            margin-bottom: 15px;
+        }
+
+        .header-btn button {
+            width: 90px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container-fluid mt-3">
+
+        <div class="form-box">
+
+            <!-- TOP BUTTONS -->
+
+            <div class="header-btn">
+
+                <button class="btn btn-primary">New</button>
+                <button class="btn btn-success">Save</button>
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-info">Print</button>
+
+            </div>
+
+            <!-- ACCOUNT DETAILS -->
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label>Scheme</label>
+                    <select class="form-select">
+                        <option>Abadhik Bachat (1 Yrs)</option>
+                        <option>Monthly Saving</option>
+                        <option>Fixed Deposit</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>A/C No</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>A/C Opening Amt</label>
+                    <input type="number" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>Interest Rate</label>
+                    <input type="number" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>Mode of Payment</label>
+                    <select class="form-select">
+                        <option>Cash In Office</option>
+                        <option>Bank Transfer</option>
+                        <option>Cheque</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Period</label>
+                    <input type="number" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>Year</label>
+                    <select class="form-select">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>Cheque / Receipt No</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Opening Date</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Maturity Date</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Collect Interest On</label>
+                    <select class="form-select">
+                        <option>Default</option>
+                        <option>Monthly</option>
+                        <option>Quarterly</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Transfer Interest To</label>
+                    <select class="form-select">
+                        <option>Quarter End</option>
+                        <option>Monthly</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Group</label>
+                    <select class="form-select">
+                        <option>ORDINARY</option>
+                        <option>VIP</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Name</label>
+                    <input type="text" class="form-control">
+                </div>
+
+            </div>
+
+            <hr>
+
+            <!-- TABS -->
+
+            <ul class="nav nav-tabs mt-3">
+
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#basic">Basic Info</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#mandatory">Mandatory</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#nominee">Nominee</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#signature">Signature</a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content p-3 border border-top-0">
+
+                <!-- BASIC INFO -->
+
+                <div class="tab-pane fade show active" id="basic">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-3">
+                            <label>Full Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Title</label>
+                            <select class="form-select">
+                                <option>Mr.</option>
+                                <option>Mrs.</option>
+                                <option>Miss</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Gender</label>
+                            <select class="form-select">
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Date of Birth</label>
+                            <input type="date" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Citizenship No</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Issue District</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Nationality</label>
+                            <select class="form-select">
+                                <option>Nepali</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>District</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Street / Tole</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Religion</label>
+                            <select class="form-select">
+                                <option>Hindu</option>
+                                <option>Buddhist</option>
+                                <option>Christian</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Education</label>
+                            <select class="form-select">
+                                <option>SEE</option>
+                                <option>+2</option>
+                                <option>Bachelor</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Mobile No</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Phone No</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Email</label>
+                            <input type="email" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Monthly Income</label>
+                            <input type="number" class="form-control">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Occupation</label>
+                            <input type="text" class="form-control">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
