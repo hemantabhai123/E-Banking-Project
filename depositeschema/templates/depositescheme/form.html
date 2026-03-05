@@ -1,0 +1,319 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<style>
+    body {
+        background: #b9cbe6;
+        font-size: 13px;
+    }
+
+    .deposit-box {
+        border: 1px solid #8fa7c9;
+        background: #d6e4fb;
+        padding: 10px;
+    }
+
+    .toolbar {
+        background: #e4efff;
+        border: 1px solid #9fb5d9;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .left-panel {
+        background: #fff;
+        border: 1px solid #9fb5d9;
+        height: 520px;
+    }
+
+    .group-box {
+        border: 1px solid #9fb5d9;
+        background: #eaf2ff;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .group-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    input,
+    select {
+        height: 26px !important;
+        font-size: 13px !important;
+    }
+</style>
+
+
+<div class="container-fluid mt-3">
+
+    <div class="deposit-box">
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button class="btn btn-light btn-sm">New</button>
+            <button class="btn btn-primary btn-sm">Save</button>
+            <button class="btn btn-secondary btn-sm">Cancel</button>
+            <button class="btn btn-danger btn-sm">Delete</button>
+        </div>
+
+        <div class="row">
+
+            <!-- LEFT LIST PANEL -->
+            <div class="col-md-3">
+                <div class="left-panel p-2">
+
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>A/C No.</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+
+
+            <!-- RIGHT FORM PANEL -->
+            <div class="col-md-9">
+
+                <!-- TOP BASIC INFO -->
+
+                <div class="row mb-2">
+
+                    <div class="col-md-2">
+                        <label>A/C No.</label>
+                        <input class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Deposit Name</label>
+                        <input class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>बचतको नाम</label>
+                        <input class="form-control">
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-3">
+
+                    <div class="col-md-3">
+                        <label>Deposit Type</label>
+                        <select class="form-select">
+                            <option>Normal</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Group Saving</label>
+                        <select class="form-select">
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <!-- ACCOUNT DETAIL -->
+                    <div class="col-md-6">
+
+                        <div class="group-box">
+
+                            <div class="group-title">Account Detail</div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Regular Deposit Amount</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Grace Period (days)</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Late Fine Amount</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">A/C Opening Amount</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Minimum Balance</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Min. Deposit Period</div>
+                                <div class="col-3"><input class="form-control"></div>
+                                <div class="col-2">
+                                    <select class="form-select">
+                                        <option>Day</option>
+                                        <option>Month</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Max. Drawing Per Day</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"> Cheque Book System
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"> Overdraft Facility
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"> E-Banking
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"> SMS Banking
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"> ATM System
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" checked> Enable
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <!-- INTEREST DETAIL -->
+                    <div class="col-md-6">
+
+                        <div class="group-box">
+
+                            <div class="group-title">Interest Detail</div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Interest Rate On Deposit</div>
+                                <div class="col-5">
+                                    <input class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Overdraft</div>
+                                <div class="col-5">
+                                    <input class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Interest Collection Period</div>
+                                <div class="col-5">
+                                    <select class="form-select">
+                                        <option>Month End</option>
+                                        <option>Daily</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Interest Calculation Method</div>
+                                <div class="col-5">
+                                    <select class="form-select">
+                                        <option>Monthly Minimum</option>
+                                        <option>Daily Balance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-5">Tax Rate On Person</div>
+                                <div class="col-3"><input class="form-control"></div>
+                                <div class="col-2">Organization</div>
+                                <div class="col-2"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Interest Pay/Transfer</div>
+                                <div class="col-5">
+                                    <select class="form-select">
+                                        <option>Manually</option>
+                                        <option>Auto</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-2">
+                                <div class="col-6">Prefix</div>
+                                <div class="col-6"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-6">Body Length</div>
+                                <div class="col-6"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-6">Min Collection</div>
+                                <div class="col-6"><input class="form-control"></div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-6">Collector Commission</div>
+                                <div class="col-4"><input class="form-control"></div>
+                                <div class="col-2">%</div>
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- EXTRA SETTING -->
+                        <div class="group-box">
+
+                            <div class="group-title">Extra Setting</div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Untimely Withdraw Charge</div>
+                                <div class="col-4"><input class="form-control"></div>
+                                <div class="col-1">%</div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Untimely Closing Charge</div>
+                                <div class="col-4"><input class="form-control"></div>
+                                <div class="col-1">%</div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-7">Closing Charge</div>
+                                <div class="col-5"><input class="form-control"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>

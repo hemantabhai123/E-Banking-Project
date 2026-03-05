@@ -1,0 +1,500 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'Selectsearch/select2.min.css' %}">
+{% endblock %}
+{% block content %}
+<div class="landing-page pt-1" id="landing-page">
+    <div class="container-fluid">
+        <div class="lnw-body-dashboard">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb" style="background-color: var(--primary-background);">
+                        <span class="title-page main-page-heading">{{ title }}</span>
+                        <span id="adjustmentIcon" class="adjustment-btn text-light" data-toggle="modal"
+                            data-target="#adjustmentModal" title="Adjustments" style="cursor: pointer;">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="company-form">
+                <form id="regForm" action="{% url 'sharepurchase.store' %}" method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                    <div class="window-box">
+                        <div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-9">
+                                <div class="right-panel">
+
+                                    <div class="row mb-2">
+
+                                       <div class="col-md-4">
+                                            <label class="small-label">Certificate No:</label>
+                                            <div class="form-control form-control-sm bg-light fw-semibold">
+                                                {{ next_certificate }}
+                                            </div>
+                                        </div>
+
+                                        
+                                        <div class="col-md-4">
+                                            <label class="small-label">Member No :</label>
+                                            <select name="member_mid" id="member_mid" class="form-select form-select-sm select2">
+                                                
+                                                <option value="0">Select Member</option>
+
+                                                {% for member_object in members %}
+                                                    <option value="{{ member_object.id }}"
+                                                        {% if share_purchase.member.id == share_purchase.id %}selected{% endif %}>
+                                                        {{ member_object.full_name }}
+                                                    </option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+
+
+
+                                        <div class="col-md-4">
+                                            <label class="small-label">Open Date:</label>
+                                            <input type="text" name="open_date" value="{{share_purchase.open_date}}" id="supplierBillDate"
+                                                class="form-control  form-control-sm">
+                                        </div>
+                                    </div>
+
+
+                                    <!-- SHARE SECTION -->
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label class="small-label">Share Type:</label>
+                                            <select class="form-select form-select-sm select2" name="share_type" data-placeholder="Select Share Type">
+                                    
+                                                <option value="">-- Select Share Type --</option>
+                                    
+                                                <option value="ordinary" {% if share_purchase.share_type == "ordinary" %}selected{% endif %}>
+                                                    Ordinary Share (साधारण शेयर)
+                                                </option>
+                                    
+                                                <option value="promoter" {% if share_purchase.share_type == "promoter" %}selected{% endif %}>
+                                                    Promoter Share (संस्थापक शेयर)
+                                                </option>
+                                    
+                                                <option value="additional" {% if share_purchase.share_type == "additional" %}selected{% endif %}>
+                                                    Additional Share (थप शेयर)
+                                                </option>
+                                    
+                                                <option value="institutional" {% if share_purchase.share_type == "institutional" %}selected{% endif %}>
+                                                    Institutional Share (संस्थागत शेयर)
+                                                </option>
+                                    
+                                                <option value="employee" {% if share_purchase.share_type == "employee" %}selected{% endif %}>
+                                                    Employee Share (कर्मचारी शेयर)
+                                                </option>
+                                    
+                                                <option value="women" {% if share_purchase.share_type == "women" %}selected{% endif %}>
+                                                    Women Share (महिला शेयर)
+                                                </option>
+                                    
+                                                <option value="minor" {% if share_purchase.share_type == "minor" %}selected{% endif %}>
+                                                    Minor Share (बाल सदस्य शेयर)
+                                                </option>
+                                    
+                                                <option value="special" {% if share_purchase.share_type == "special" %}selected{% endif %}>
+                                                    Special Share (विशेष शेयर)
+                                                </option>
+                                    
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small-label">Share Amount:</label>
+                                            <input type="number" name="share_amount" id="shareAmount" class="form-control  form-control-sm"
+                                                value="{{share_purchase.share_amount}}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small-label">Share Rate:</label>
+                                            <input type="number" name="share_rate" id="shareRate" class="form-control  form-control-sm"
+                                                value="{% if share_purchase %}{{share_purchase.share_rate}}{% endif %}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small-label">No Of Share:</label>
+                                            <input type="number" value="{{share_purchase.share_rate}}" name="no_of_shares" id="noShare" class="form-control  form-control-sm"
+                                                readonly>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label class="small-label">Share From:</label>
+                                            <input type="number" value="01" id="shareFrom"
+                                                class="form-control  form-control-sm" name="share_from" value="{{next_share_to}}" readonly>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small-label">Share To:</label>
+                                            <input type="number" id="shareTo" name="share_to" value="{{share_purchase.share_to}}" class="form-control  form-control-sm">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small-label">Issue Date:</label>
+                                            <input name="issue_date" type="text" value="{{share_purchase.issue_date}}" id="nepali-datepicker"
+                                                class="form-control  form-control-sm">
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- PAYMENT SECTION -->
+                                    <div class="payment-box">
+                                        <!-- CASH -->
+                                        <div class="row align-items-center mb-2">
+                                            <div class="col-md-2">
+                                                <input type="checkbox"  id="cashCheck"> Cash
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" id="cashReceipt"
+                                                    class="form-control  form-control-sm" value="" name="cash_receipt" placeholder="Rcpt No"
+                                                    disabled>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" id="cashAmount"
+                                                    class="form-control  form-control-sm" value="" name="cash_amount" placeholder="Rs" disabled>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- BANK -->
+                                        <div class="row align-items-center mb-2">
+                                            <div class="col-md-2">
+                                                <input type="checkbox" id="bankCheck"> Bank
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select id="bankName" name="bank_name" value="{{share_purchase.bank_name}}" class="form-select   form-select-sm" disabled>
+                                                    <option>Select Bank</option>
+                                                    <option>NIC Asia</option>
+                                                    <option>Global IME</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" id="chequeNo" name="cheque_no" value="{{share_purchase.cheque_no}}" class="form-control  form-control-sm"
+                                                    placeholder="Cheque No" disabled>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" id="bankAmount"
+                                                    class="form-control  form-control-sm" value="{{share_purchase.bank_amount}}" name="bank_amount" placeholder="Rs" disabled>
+                                            </div>
+                                        </div>
+                                        <!-- OTHER -->
+                                        <div class="row align-items-center">
+                                            <div class="col-md-2">
+                                                <input type="checkbox" id="otherCheck"> Other
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" id="otherDetail"
+                                                    class="form-control  form-control-sm" value="{{share_purchase.other_detail}}" name="other_detail" disabled>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" id="otherAmount"
+                                                    class="form-control  form-control-sm" value="{{share_purchase.other_amount}}" name="other_amount" placeholder="Rs" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- IN WORDS -->
+                                    <div class="inwords-box">
+                                        <label class="small-label">In Words</label>
+                                        <input type="text" id="inWords" value="{{share_purchase.in_words}}" name="in_words" class="form-control  form-control-sm" readonly>
+                                    </div>
+                                    <div class="form-group ml-auto my-2">
+                                        <button type="submit" class="btn-submits">
+                                            {% if account %} Update {% else %} Submit {% endif %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'Selectsearchjs/select2.min.js'%}"></script>
+<script type="text/javascript">
+  $('.select2').select2({
+    placeholder: "Select an option",
+    allowClear: true
+  });
+</script>
+<script>
+    window.onload = function () {
+        var mainInput = document.getElementById("nepali-datepicker");
+        var adInput = document.getElementById("nepali-datepicker1");
+        var transactionInput = document.getElementById("supplierBillDate");
+        var transactionInput1 = document.getElementById("nepali-datepicker3");
+        var transactionInput2 = document.getElementById("joining_date_in_bs");
+
+        var dateUpdateVal = document.getElementById("date_update")
+            ? document.getElementById("date_update").value
+            : "";
+        // =============================
+        // Today’s BS date
+        // =============================
+        var today = NepaliFunctions.BS.GetCurrentDate();
+        var formattedToday = [
+            today.year,
+            String(today.month).padStart(2, "0"),
+            String(today.day).padStart(2, "0")
+        ].join("-");
+        var defaultDate = dateUpdateVal ? dateUpdateVal : formattedToday;
+
+        // =============================
+        // Main BS Input
+        // =============================
+        if (mainInput && typeof mainInput.NepaliDatePicker === "function") {
+            mainInput.NepaliDatePicker({
+                ndpYear: true,
+                ndpMonth: true,
+                onSelect: function (bsDate) {
+                    if (bsDate && adInput) {
+                        var adDate = NepaliFunctions.BS2AD(bsDate, "YYYY-MM-DD", "YYYY-MM-DD");
+                        adInput.value = adDate;
+                    }
+                }
+            });
+
+            if (!mainInput.value) {
+                mainInput.value = defaultDate;
+                if (adInput) {
+                    var adDate = NepaliFunctions.BS2AD(defaultDate, "YYYY-MM-DD", "YYYY-MM-DD");
+                    adInput.value = adDate;
+                }
+            }
+        }
+
+        // =============================
+        // AD Input -> updates BS
+        // =============================
+        if (adInput) {
+            adInput.addEventListener("change", function () {
+                var adDate = this.value;
+                if (adDate && mainInput) {
+                    var bsDate = NepaliFunctions.AD2BS(adDate, "YYYY-MM-DD", "YYYY-MM-DD");
+                    mainInput.value = bsDate;
+                }
+            });
+        }
+
+        // ===================================
+        // Other Date Inputs (No restrictions)
+        // ===================================
+        [transactionInput, transactionInput1, transactionInput2].forEach(function (input) {
+            if (input && typeof input.NepaliDatePicker === "function") {
+                input.NepaliDatePicker({
+                    ndpYear: true,
+                    ndpMonth: true
+                });
+            }
+        });
+    };
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const shareAmount = document.getElementById("shareAmount");
+        const shareRate = document.getElementById("shareRate");
+        const noShare = document.getElementById("noShare");
+        const shareFrom = document.getElementById("shareFrom");
+        const shareTo = document.getElementById("shareTo");
+        const inWords = document.getElementById("inWords");
+
+        const cashCheck = document.getElementById("cashCheck");
+        const bankCheck = document.getElementById("bankCheck");
+        const otherCheck = document.getElementById("otherCheck");
+
+        const cashAmount = document.getElementById("cashAmount");
+        const bankAmount = document.getElementById("bankAmount");
+        const otherAmount = document.getElementById("otherAmount");
+
+        const cashReceipt = document.getElementById("cashReceipt");
+        const bankName = document.getElementById("bankName");
+        const chequeNo = document.getElementById("chequeNo");
+        const otherDetail = document.getElementById("otherDetail");
+
+        /* ===============================
+           SHARE CALCULATION
+        =============================== */
+
+        function calculateShare() {
+            let amount = parseFloat(shareAmount.value) || 0;
+            let rate = parseFloat(shareRate.value) || 0;
+            let from = parseInt(shareFrom.value) || 0;
+
+            if (rate <= 0) return;
+
+            if (amount > 0) {
+
+                if (amount % rate !== 0) {
+                    noShare.value = "";
+                    shareTo.value = "";
+                    return;
+                }
+
+                let totalShare = amount / rate;
+
+                noShare.value = totalShare;
+
+                if (from > 0) {
+                    shareTo.value = from + totalShare - 1;
+                }
+            }
+
+            updateInWords(amount);
+            autoDistributePayment(amount);
+        }
+
+        function calculateFromNoShare() {
+            let rate = parseFloat(shareRate.value) || 0;
+            let totalShare = parseInt(noShare.value) || 0;
+            let from = parseInt(shareFrom.value) || 0;
+
+            if (rate <= 0) return;
+
+            let amount = totalShare * rate;
+            shareAmount.value = amount;
+
+            if (from > 0 && totalShare > 0) {
+                shareTo.value = from + totalShare - 1;
+            }
+
+            updateInWords(amount);
+            autoDistributePayment(amount);
+        }
+
+        /* ===============================
+           PAYMENT ENABLE/DISABLE
+        =============================== */
+
+        function toggleField(check, fields) {
+            fields.forEach(field => {
+                field.disabled = !check.checked;
+                if (!check.checked) field.value = "";
+            });
+            validatePayment();
+        }
+
+        cashCheck.addEventListener("change", function () {
+            toggleField(cashCheck, [cashReceipt, cashAmount]);
+        });
+
+        bankCheck.addEventListener("change", function () {
+            toggleField(bankCheck, [bankName, chequeNo, bankAmount]);
+        });
+
+        otherCheck.addEventListener("change", function () {
+            toggleField(otherCheck, [otherDetail, otherAmount]);
+        });
+
+        /* ===============================
+           AUTO DISTRIBUTE AMOUNT
+        =============================== */
+
+        function autoDistributePayment(amount) {
+            if (cashCheck.checked && !bankCheck.checked && !otherCheck.checked) {
+                cashAmount.value = amount;
+            }
+        }
+
+        /* ===============================
+           VALIDATE TOTAL PAYMENT
+        =============================== */
+
+        function validatePayment() {
+            let total =
+                (parseFloat(cashAmount.value) || 0) +
+                (parseFloat(bankAmount.value) || 0) +
+                (parseFloat(otherAmount.value) || 0);
+
+            let shareAmt = parseFloat(shareAmount.value) || 0;
+
+            if (total !== shareAmt) {
+                shareAmount.style.borderColor = "red";
+            } else {
+                shareAmount.style.borderColor = "";
+            }
+        }
+
+        cashAmount.addEventListener("input", validatePayment);
+        bankAmount.addEventListener("input", validatePayment);
+        otherAmount.addEventListener("input", validatePayment);
+
+        /* ===============================
+           AMOUNT IN WORDS (NEPALI STYLE)
+        =============================== */
+
+        function updateInWords(amount) {
+            inWords.value = numberToNepaliWords(amount) + " Only";
+        }
+
+        function numberToNepaliWords(number) {
+            if (number === 0) return "Zero";
+
+            const units = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+            let words = [];
+
+            let crore = Math.floor(number / 10000000);
+            if (crore > 0) {
+                words.push(numberToNepaliWords(crore) + " Crore");
+                number %= 10000000;
+            }
+
+            let lakh = Math.floor(number / 100000);
+            if (lakh > 0) {
+                words.push(numberToNepaliWords(lakh) + " Lakh");
+                number %= 100000;
+            }
+
+            let thousand = Math.floor(number / 1000);
+            if (thousand > 0) {
+                words.push(numberToNepaliWords(thousand) + " Thousand");
+                number %= 1000;
+            }
+
+            let hundred = Math.floor(number / 100);
+            if (hundred > 0) {
+                words.push(units[hundred] + " Hundred");
+                number %= 100;
+            }
+
+            if (number > 0) {
+                if (number < 10) words.push(units[number]);
+                else if (number < 20) words.push(teens[number - 10]);
+                else {
+                    let tenUnit = Math.floor(number / 10);
+                    let unit = number % 10;
+                    words.push(tens[tenUnit] + (unit ? " " + units[unit] : ""));
+                }
+            }
+
+            return words.join(" ");
+        }
+
+        /* ===============================
+           EVENT LISTENERS
+        =============================== */
+
+        shareAmount.addEventListener("input", calculateShare);
+        shareRate.addEventListener("input", calculateShare);
+        shareFrom.addEventListener("input", calculateShare);
+        noShare.addEventListener("input", calculateFromNoShare);
+
+    });
+</script>
+{% endblock %}
